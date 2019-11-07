@@ -8,5 +8,7 @@
   "elm.includeUserFunctionDocumentation": true,
   "[elm]": {
     "editor.formatOnSave": true,
-  }
+  },
+  "editor.fontLigatures": true,
+  "editor.fontFamily": "Fira Code, 'Courier New', monospace"
 }

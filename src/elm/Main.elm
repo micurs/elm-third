@@ -6,7 +6,7 @@ import Html exposing (Html, div, h2, img, text)
 import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick)
 import Http
-import Json.Decode as D
+import Json.Decode as Decode
 import Msg exposing (..)
 import Swapi exposing (..)
 
@@ -20,7 +20,7 @@ gotMovies : Model -> QueryResponse -> ( Model, Cmd Msg )
 gotMovies model res =
     case res of
         Ok data ->
-            ( { model | value = Value data }, Cmd.none )
+            ( { model | value = Value (jsonToMovies data) }, Cmd.none )
 
         Err err ->
             ( { model | value = Result err }, Cmd.none )
@@ -50,7 +50,7 @@ update action model =
 type MoviesResult
     = Result Http.Error
     | Loading
-    | Value String
+    | Value Movies
     | Nothing
 
 
@@ -58,8 +58,8 @@ type alias Model =
     { value : MoviesResult }
 
 
-init : ( Model, Cmd Msg )
-init =
+init : flags -> ( Model, Cmd Msg )
+init _ =
     ( { value = Nothing }, Cmd.none )
 
 
@@ -67,17 +67,24 @@ init =
 ---- VIEW ----
 
 
+liMovies v =
+    List.map (\t -> Html.li [] [ Html.text t ]) <|
+        moviesTitle <|
+            v
+
+
 outData : Model -> Html Msg
 outData model =
     case model.value of
         Loading ->
-            primaryPanel [ Html.code [] [ Html.text "Loading" ] ]
+            primaryPanel <| [ Html.code [] [ Html.text "Loading" ] ]
 
-        Result err ->
+        Result err1 ->
             errorPanel [ Html.code [] [ Html.text "Some Error" ] ]
 
         Value val ->
-            primaryPanel [ Html.code [] [ Html.text val ] ]
+            primaryPanel
+                [ Html.ul [] (val |> liMovies) ]
 
         Nothing ->
             Html.text "Click the button to fetch the data"
@@ -100,7 +107,7 @@ main : Program () Model Msg
 main =
     Browser.element
         { view = view
-        , init = \_ -> init
+        , init = init
         , update = update
         , subscriptions = always Sub.none
         }

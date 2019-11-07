@@ -1,10 +1,10 @@
 module Msg exposing (..)
 
-import Http
+import Http exposing (Error)
 
 
 type alias QueryResponse =
-    Result Http.Error String
+    Result Error String
 
 
 type Msg

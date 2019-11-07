@@ -1,5 +1,6 @@
 {
     "type": "application",
+    "version": "0.0.1",
     "source-directories": [
         "./src/elm"
     ],
