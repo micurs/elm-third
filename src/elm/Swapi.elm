@@ -176,16 +176,7 @@ getMovies handleData =
 moviesTitle : Movies -> List String
 moviesTitle movies =
     List.map
-        (\n ->
-            let
-                t =
-                    n.node.title
-
-                _ =
-                    Debug.log "title" t
-            in
-            t
-        )
+        (\n -> n.node.title)
         movies.allFilms.edges
 
 
