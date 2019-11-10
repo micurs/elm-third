@@ -16,26 +16,26 @@ import Swapi exposing (..)
 
 
 getCharacters : Movie -> List Character
-getCharacters m =
-    .characters <| .characterConnection <| m
+getCharacters =
+    .characters << .characterConnection
 
 
 getTitle : Movie -> String
-getTitle m =
-    .title <| m
+getTitle =
+    .title
 
 
 getFilms : Movies -> List Movie
-getFilms m =
-    m
-        |> .allFilms
-        |> .edges
-        |> List.map (\n -> n.node)
+getFilms =
+    List.map (\n -> n.node)
+        << .edges
+        << .allFilms
 
 
 moviesTitles : Movies -> List String
-moviesTitles movies =
-    List.map getTitle (getFilms movies)
+moviesTitles =
+    List.map getTitle
+        << getFilms
 
 
 
@@ -150,15 +150,17 @@ charcterInfo c =
         ]
 
 
-charactersLI : MovieLister
-charactersLI movie =
-    movie
-        |> getCharacters
-        |> List.map
-            (\character ->
-                listItem [] [ charcterInfo character ]
-            )
 
+-- Render all charecters of a movie as a List of ListItems
+
+lister x = x :: []
+
+charactersLI : MovieLister
+charactersLI =
+    List.map
+        (listItem [] << lister << charcterInfo )
+        << List.sortBy .name
+        << getCharacters
 
 outData : Model -> Html Msg
 outData model =

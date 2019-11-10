@@ -1,6 +1,6 @@
 {
   "name": "elm-third",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "description": "Third ELM example",
   "main": "dist/main.js",
   "author": "Michele Ursino",
