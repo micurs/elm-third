@@ -11,3 +11,4 @@ type Msg
     = NoOp
     | GetMovies
     | GotMovies QueryResponse
+    | ShowMovieCharacters String

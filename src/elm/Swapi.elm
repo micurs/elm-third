@@ -1,4 +1,12 @@
-module Swapi exposing (..)
+module Swapi exposing
+    ( Character
+    , Edges
+    , Movie
+    , Movies
+    , Node
+    , getMovies
+    , jsonToMovies
+    )
 
 import Http
 import Json.Decode as Decode exposing (Decoder, field, float, int, list, map, map2, map3, map5, maybe, string)
@@ -6,7 +14,6 @@ import Msg exposing (Msg, QueryResponse)
 
 
 
--- import Json.Decode.Pipeline exposing (required, optional, hardcoded)
 ---- DTO ----
 
 
@@ -171,24 +178,3 @@ getMovies handleData =
         , timeout = Just 5000
         , tracker = Just "Nothing"
         }
-
-
-moviesTitle : Movies -> List String
-moviesTitle movies =
-    List.map
-        (\n -> n.node.title)
-        movies.allFilms.edges
-
-
-
--- type Msg
---     = GotMovies (Result Http.Error String)
--- This is the function that trigger the HTTP request to get movies
--- Note it generate a HttpMsg triggered when result became available
--- getMovies : Cmd Msg
--- getMovies =
---     Http.post
---         { body = Http.stringBody "application/json" swfilms
---         , expect = Http.expectString GotMovies
---         , url = "https://swapi.apis.guru"
---         }

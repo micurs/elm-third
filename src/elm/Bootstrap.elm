@@ -1,8 +1,12 @@
 module Bootstrap exposing (..)
 
-import Html exposing (Html, div, h2, img, text)
+import Html exposing (Html, div, h2, img, li, text, ul)
 import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick)
+
+
+addAttrClass c ma =
+    List.append [ class c ] ma
 
 
 primaryPanel =
@@ -14,4 +18,12 @@ errorPanel =
 
 
 primaryButton moreAttributes =
-   Html.button (List.append [ class "btn btn-primary mx-4 my-2" ] moreAttributes)
+    Html.button (addAttrClass "btn btn-primary mx-4 my-2" moreAttributes)
+
+
+listGroup moreAttributes =
+    Html.ul (addAttrClass "list-group" moreAttributes)
+
+
+listItem moreAttributes =
+    Html.li (addAttrClass "list-group-item" moreAttributes)
